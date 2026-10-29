@@ -6,7 +6,7 @@ def verifie_01(Liste):
             return False
     return True
 
-def somme(Liste):
+def somme_modulo(Liste):
     S=0
     for bit in Liste:
         S+=bit
@@ -14,7 +14,7 @@ def somme(Liste):
 
 def rajoute_bit_parite(Liste):
     L2 = copie(Liste)
-    L2.append(somme(L))
+    L2.append(somme_modulo(Liste))
     return L2
 
 def decodage_parite(L):
@@ -26,7 +26,7 @@ def decodage_parite(L):
     return 
 
 #L = [0,1,1,0,1]
-L = [0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1]
+#L = [0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1]
 
 def repetition(L,k):
     L2 = []
@@ -55,9 +55,32 @@ def decodage_majoritaire(L,k):
             return
     return L2
 
+L = [[0,1,0],[1,1,0],[0,1,1]]
     
-
+def rajoute_parite_croise(L):
+    L_croise = []
+    L_colone = []
+    for i in range (len(L)):
+        L_tempon = []
+        L_croise.append(rajoute_bit_parite(L[i])) #n-1 premieres lignes ok 
+        #recup n-1 premieres colones
+        for k in range (len(L)):
+            L_tempon.append(L[k][i])
+        L_colone.append(L_tempon)
+    L_tempon = []
+    #recup neme colone
+    for j in range(len(L_croise)):
+        L_tempon.append(L_croise[j][len(L_croise[0])-1])
+    L_colone.append(L_tempon)
+    L_tempon = []
+    #neme ligne 
+    for l in range (len(L_colone)):
+       L_tempon.append(somme_modulo(L_colone[l]))
+    L_croise.append(L_tempon)
+    return L_croise
 
 #print(repetition(L,3))
 
-print(decodage_majoritaire(L,3))
+#print(decodage_majoritaire(L,3))
+
+print(rajoute_parite_croise(L))
